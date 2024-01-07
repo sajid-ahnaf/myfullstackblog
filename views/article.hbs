@@ -1,0 +1,116 @@
+<div class="top-bar">
+  <div class="back-button-container" onClick="window.location.href = '/'"><strong>&#60; Back</strong></div>
+  <span class="blog-title">{{{about.title}}}</span>
+  <div class="article-edit-button-container">
+    {{#if isAdmin}}
+      <button title="Edit article" class="edit-intro-button" onClick="window.location.href = '/article/{{article.slug}}/edit'">
+        <img width="16px" height="16px" src="../img/pen.png" alt="edit-icon">
+      </button>
+    {{/if}}
+  </div>
+</div>
+<main class="container">
+  <header class="article-header">
+    <h1>{{{article.title}}}</h1>
+    <div class="article-stats-container">
+      <div class="article-view-count">
+        <img class="stat-icons" height="14px" src="../img/eye-icon.png" alt="eye-icon">
+        <span class="details-number-span">{{{article.views}}}</span>
+      </div>
+      <div class="article-comment-count">
+        <img class="stat-icons" height='14px' src="../img/comments-icon.png" alt="text-bubble">
+        <span class="details-number-span">{{{article.totalComments}}}</span>
+      </div>
+    </div>
+    <div class="article-header-date">{{dateFormat article.created_at "DD.M.YYYY"}}</div>
+  </header>
+
+  <section class="article-content">
+    {{{article.content}}}
+  </section>
+  
+  <section class="comment-section">
+    <h2 class="comments-header">Comments</h2>
+    {{!-- Form --}}
+    <form id="comment-form">
+      <textarea name="content" id="comment-text" rows="1" placeholder="Add comment..." autocomplete="off" onkeydown="postComment(event, this, {{article.id}}, 'false')"></textarea>
+      <a id="submit-button" onclick='postComment(event, this, {{article.id}}, "true")'>Add</a>
+    </form>
+      <div class='delete-comment-container'>
+      {{#if isAdmin}}
+        <button onClick="fetchCheckedComments()" class="delete-comment-button with-tooltip">
+          <span class="tooltiptext">Delete comments</span>
+          <img width="16px" height="16px" src="/img/trash3-fill.png" alt="trash-icon" />
+        </button>
+      {{/if}}
+      </div>
+    {{#each article.comments}}
+      <div class="comment-container">
+        {{#if ../isAdmin}}
+        <div class="checkbox-container">
+            <label for="delete-comment">
+                <input type="checkbox" name="delete-comment" id="{{this.id}}" class="delete-comment-checkbox" onchange="check()">
+            </label>
+        </div>
+        {{/if}}
+        <div class="comment-content-container">
+          {{this.content}}
+        </div>
+      </div>
+    {{/each}}
+  </section>
+
+  <section class="article-header" style="margin-top: 80px">
+      <span class="blog-title">{{{about.title}}}</span>
+    <h1>{{{article.title}}}</h1>
+    <div class="article-stats-container">
+      <div class="article-view-count">
+        <img class="stat-icons" height="14px" src="../img/eye-icon.png" alt="eye-icon">
+        <span class="details-number-span">{{{article.views}}}</span>
+      </div>
+      <div class="article-comment-count">
+        <img class="stat-icons" height='14px' src="../img/comments-icon.png" alt="text-bubble">
+        <span class="details-number-span">{{{article.totalComments}}}</span>
+      </div>
+    </div>
+    <div class="article-header-date">{{dateFormat article.created_at "DD.M.YYYY"}}</div>
+  </section>
+
+</main>
+<script src='https://www.google.com/recaptcha/api.js?render={{this.RECAPTCHA_SITE_KEY}}'></script>
+<script>
+  const fetchCheckedComments = () => {
+    const checkedComments = document.querySelectorAll('input[type=checkbox]:checked')
+    deleteArticlesComments('comment', checkedComments)
+  }
+
+  const postComment = (event, el, articleId, click) => {
+    if(click === 'false'){
+      if(event.key === 'Enter' && !event.shiftKey) {
+        event.preventDefault();
+        el.disabled = true;
+        submitComment(event, articleId);
+        return;
+      }
+    } else if (click === 'true') {
+        el.onclick = "";
+        submitComment(event, articleId);
+      return;
+    }
+  }
+
+  const check = () => {
+    const checked = document.querySelectorAll('input[type="checkbox"]:checked');
+    const deleteCommentButton = document.querySelector('.delete-comment-button');
+    if(deleteCommentButton) {
+      if(checked.length > 0) {
+        deleteCommentButton.style.cursor = 'pointer';
+        deleteCommentButton.style.opacity = '1';
+      } else {
+        deleteCommentButton.style.cursor = 'default';
+        deleteCommentButton.style.opacity = '.4';
+      }
+    }
+  }
+
+</script>

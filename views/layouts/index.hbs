@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Jenny's Blog</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap">
+  <link rel="stylesheet" type="text/css" href="/style.css" />
+  <link rel="stylesheet" type="text/css" href="/editor.css">
+</head>
+
+<body>
+  {{{body}}}
+  <script src="/js/script.js"></script>
+  <!-- Script for auto reloading. Do not remove! -->
+  <script>
+    if (`{{@exphbs.runtimeOptions.data.NODE_ENV}}` === 'development') {
+      let ws;
+      let reloadPage = true;
+      let wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+
+      ws = new WebSocket(`${wsProtocol}//${window.location.host}`);
+
+      ws.onopen = (event) => {
+        const interval = setInterval(() => {
+          ws.send('keep alive');
+        }, 10000);
+      }
+
+      ws.onerror = () => {
+        reloadPage = false;
+      }
+
+      ws.onclose = async () => {
+        await waitForSuccessfulPing();
+        if (reloadPage) {
+          location.reload();
+        }
+      };
+
+      const waitForSuccessfulPing = async () => {
+        let pings = 0;
+        const maxPings = 10;
+        while (true) {
+          try {
+            const res = await fetch(`${location.protocol}//${location.host}${location.pathname}/@w3sPing`);
+            const status = res.status;
+            if (status === 404) return true;
+            await new Promise((resolve) => setTimeout(resolve, 1000))
+          } catch (e) {
+            console.error('Error pinging websocket');
+          }
+
+          //Return false if no succesfull ping for about 10s
+          pings++;
+          if (pings >= maxPings) {
+            return false;
+          }
+        }
+
+        return true;
+      }
+    }
+  </script>
+</body>
+
+</html>

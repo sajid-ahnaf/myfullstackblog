@@ -1,0 +1,14 @@
+<div id="editor-toolbar">
+</div>
+<div class="article-content">
+  <div id="new-article"><em>{{title}}</em></div>
+  <div id="editor-title" name="title">{{#if article}}{{{article.title}}}{{/if}}</div>
+  <hr>
+  <div id="editor-content" name="content">{{#if article}}{{{article.content}}}{{/if}}</div>
+</div>
+<input id="slug-input" type="text" hidden="true" value="{{article.slug}}">
+<div id="save-and-cancel">
+  <button type="submit" id="save-button" class="save-button" onClick="submitText('{{type}}')"><em>Save</em></button>
+  <button id="cancel-button" class="cancel-button" onClick="{history.back()}"><em>Close</em></button>
+</div>
+<script src="/js/bundle.js"></script>

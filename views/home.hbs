@@ -1,0 +1,129 @@
+<div id="edit-blog-intro" >
+  <div class="edit-button-container">
+  {{#if isAdmin}}
+    <button class="logout-button" onclick="signOut()">Logout</button>
+    <button title="Edit about blog" class="edit-intro-button" onclick="window.location.href = '/edit-about'" >
+      <img width="16px" height="16px"src="img/pen.png" alt="edit-icon">
+    </button>
+  {{/if}}
+  </div>
+</div>
+<main class="container">
+  <div class="intro">
+    <header class="intro-header">
+
+    <section class="blog-content">
+      {{{about.title}}}
+      {{{about.content}}}
+    </section>
+  </div>
+
+{{!-- Articles gallery --}}
+  <section class="articles-container">
+    <div class="{{#if isAdmin}}heading-container-logged-in{{else}}heading-container-logged-out{{/if}}">
+      {{#if isAdmin}}
+      <div class='new-article-container' onClick="window.location.href = '/new-article'">
+        <button class="add-article-button"><img width="16px" height="16px" src="img/plus-icon.png" alt="plus-icon" /></button>
+        <span class="add-article-text d-none-mobile">Add</span>
+      </div>
+      {{/if}}
+      <h1 class="article-gallery-title">Articles</h1>
+      {{#if isAdmin}}
+      <div class='delete-article-container with-tooltip' onClick="fetchCheckedArticles()">
+        <span class="tooltiptext">Delete articles</span>
+        <button class="delete-article-button"><img width="16px" height="16px" src="img/trash3-fill.png" alt="trash-icon" /></button>
+      </div>
+      {{/if}}
+    </div>
+    <hr>
+    {{!-- New article button --}}
+
+    <section class="article-gallery">
+    {{#each articles}}
+      <article>
+        <div class="delete-article">
+        {{#if ../isAdmin}}
+          <label for="delete-article">
+              <input type="checkbox" name="delete-article" id="{{this.id}}" class="delete-article-checkbox" onchange="check()">
+          </label>
+        {{/if}}
+        </div>
+        {{!-- Valid date sequence for the tag <time> is year-month-day --}}
+        {{#if this.imgSource}}
+        <div class="article-thumbnail-container" onClick="window.location.href = '/article/{{this.slug}}'">
+            <img src="{{this.imgSource}}" alt="Article thumbnail image">
+        </div>
+        {{/if}}
+        <div class="{{#if this.imgSource}}article-details-container-with-thumbnail{{else}}article-details-container-no-thumbnail{{/if}}" onClick="window.location.href = '/article/{{this.slug}}'">
+          <div class="article-details-container--div">
+            <div>{{dateFormat this.created_at "DD.M.YYYY"}}</div>
+            <div class="article-details-container--div--text-div">
+              <h2 class="header-truncate {{#if this.imgSource}}with-thumbnail{{/if}}">{{this.title}}</h2>
+              <p class="truncate article-details-container--div--text-div--description {{#if this.imgSource}}with-thumbnail{{/if}}">{{this.content}}</p>
+            </div>
+          </div>
+        </div>
+        <div class="article-stats-container">
+          <div class="article-view-count">
+            <img class="stat-icons" src="img/eye-icon.png" alt="eye-icon">
+            <span class="details-number-span">{{this.views}}</span>
+          </div>
+          <div class="article-comment-count">
+            <img class="stat-icons" src="img/comments-icon.png" alt="text-bubble">
+            <span class="details-number-span">{{this.totalComments}}</span>
+          </div>
+        </div>
+      </article>
+
+    {{/each}}
+    </section>
+  </section>
+</main>
+<script>
+  const paragraphs = document.querySelectorAll(".truncate")
+  const headers = document.querySelectorAll('.header-truncate')
+  headers.forEach(header => {
+    const elementStyles = getComputedStyle(header)
+    const elementHeight = header.clientHeight - (parseFloat(elementStyles.paddingBottom)+parseFloat(elementStyles.paddingTop))
+    if(header.classList.contains('with-thumbnail')) {
+      header.style.webkitLineClamp = 1
+    } else {
+      header.style.webkitLineClamp = 2
+      header.style.height = '75px';
+    }
+  })
+  paragraphs.forEach(description => {
+    const elementStyles = getComputedStyle(description)
+    const elementHeight = description.clientHeight - (parseFloat(elementStyles.paddingBottom)+parseFloat(elementStyles.paddingTop))
+    let lines = elementHeight / parseFloat(elementStyles.lineHeight)
+    elementHeight
+
+    lines = Math.floor(lines)
+
+    if(description.classList.contains('with-thumbnail')) {
+      description.style.webkitLineClamp = 2
+    } else {
+      description.style.webkitLineClamp = 9
+    }
+  })
+  const fetchCheckedArticles = () => {
+    const checkedArticles = document.querySelectorAll('input[type=checkbox]:checked')
+    deleteArticlesComments('article', checkedArticles)
+  }
+
+  const check = () => {
+    const checked = document.querySelectorAll('input[type="checkbox"]:checked');
+    const deleteArticleButton = document.querySelector('.delete-article-button');
+    const deletedArticleContainer = document.querySelector('.delete-article-container');
+    if(deleteArticleButton) {
+      if(checked.length > 0) {
+        deleteArticleButton.style.cursor = 'pointer';
+        deletedArticleContainer.style.opacity = '1';
+      } else {
+        deleteArticleButton.style.cursor = 'default';
+        deletedArticleContainer.style.opacity = '.4';
+      }
+    }
+  }
+
+</script>

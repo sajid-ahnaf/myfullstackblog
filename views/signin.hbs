@@ -1,0 +1,18 @@
+<div class="form-container">
+<form class="signup-form"  onsubmit="signIn(event)">
+  <h1>Sign In</h1>
+  <label for="username">
+    Username: <br />
+    <input name="username" type="text" placeholder="Your username" required/>
+  </label>
+  <label for="password">
+    Password <br />
+    <input name="password" type="password" placeholder="Your password" required/>
+  </label>
+  <button type="submit" class="default-button">
+    Sign In
+  </button>
+  <div id="status-box"></div>
+  <div id="error-box"></div>
+</form>
+<script src='https://www.google.com/recaptcha/api.js?render={{this.RECAPTCHA_SITE_KEY}}'></script>

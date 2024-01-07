@@ -1,0 +1,279 @@
+#save-and-cancel {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin-top: .7rem;
+  padding: 0 1rem;
+}
+
+#editor-content {
+  margin-bottom: 25%;
+}
+
+#text-editor-title,
+#text-editor-article {
+  padding: 1rem;
+  outline: none !important;
+  cursor:text;
+}
+
+#text-editor-title::before,
+#text-editor-article::before {
+  inset: 20px;
+}
+
+#text-editor-article {
+  height: 70vh;
+}
+
+#text-editor-submit {
+  background-color: #fff;
+  border: none;
+  font-size: 2.5rem;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+  cursor: pointer;
+}
+
+#new-article {
+  color: #999;
+  font-weight: bold;
+  margin: 1rem 0;
+  text-align: center;
+  font-size: 1.25rem;
+}
+
+.tox-toolbar__primary {
+  justify-content: center;
+}
+
+.tox.tox-tinymce-inline .tox-editor-header {
+  border: none !important;
+  border-bottom: 2px solid #eee !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  padding: 0.5rem !important;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button {
+  cursor: pointer;
+}
+
+.save-button,
+.cancel-button {
+  margin: 0 .5rem;
+  padding: 10px 20px;
+  font-size: 1.5rem;
+  border-radius: 10px;
+}
+
+.save-button {
+  border: none;
+  background: #798488;
+  color: white;
+}
+
+.cancel-button {
+  border: 1px solid #798488;
+  background: #fff;
+  color: #000;
+}
+
+.ck-font-size-dropdown span.ck-button__label {
+  font-size: 1rem !important;
+}
+
+#editor-toolbar {
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  margin-bottom: 1em;
+  height: 4.5em;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  border-bottom: 1px solid #ccced1;
+}
+
+#editor-toolbar div.ck.ck-toolbar.ck-reset_all.ck-rounded-corners {
+  height: 100% !important;
+  flex: 1 !important;
+  border-radius: 0 !important;
+  border: none !important;
+}
+
+#new-article {
+  margin-top: 5em !important;
+}
+
+/*
+#############################
+###                       ###
+###   CKEDITOR5 CLASSES   ###
+###                       ###
+#############################
+*/
+
+:root {
+  --ck-spacing-unit: 0.6em;
+  --ck-spacing-standard: var(--ck-spacing-unit);
+	--ck-image-style-spacing: 1.5em;
+	--ck-inline-image-style-spacing: calc(var(--ck-image-style-spacing) / 2);
+}
+
+/* image.css */
+
+.image {
+  display: table;
+  clear: both;
+  text-align: center;
+  margin: 0.9em auto;
+  min-width: 50px;
+}
+
+.image img {
+  display: block;
+  margin: 0 auto;
+  max-width: 100%;
+  min-width: 100%
+}
+
+.image-inline {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: flex-start;
+}
+
+.image-inline picture {
+  display: flex;
+}
+
+.image-inline picture,
+.image-inline img {
+  flex-grow: 1;
+  flex-shrink: 1;
+  max-width: 100%;
+}
+
+/* imageresize.css */
+
+.image.image_resized {
+	max-width: 100%;
+	display: block;
+	box-sizing: border-box;
+}
+
+.image.image_resized img {
+  width: 100%;
+}
+
+.image.image_resized > figcaption {
+  display: block;
+}
+
+td .image-inline.image_resized img
+th .image-inline.image_resized img {
+  max-width: 100%;
+}
+
+[dir="ltr"] .ck.ck-button.ck-button_with-text.ck-resize-image-button .ck-button__icon {
+	margin-right: var(--ck-spacing-standard);
+}
+
+[dir="rtl"] .ck.ck-button.ck-button_with-text.ck-resize-image-button .ck-button__icon {
+	margin-left: var(--ck-spacing-standard);
+}
+
+.ck.ck-dropdown .ck-button.ck-resize-image-button .ck-button__label {
+	width: 4em;
+}
+
+/* imagestyle.css */
+
+.image-style-block-align-left,
+.image-style-block-align-right {
+  max-width: calc(100% - var(--ck-image-style-spacing));
+}
+.image-style-align-left,
+.image-style-align-right {
+  clear: none;
+}
+
+.image-style-side {
+  float: right;
+  margin-left: var(--ck-image-style-spacing);
+  max-width: 50%;
+}
+
+.image-style-align-left {
+  float: left;
+  margin-right: var(--ck-image-style-spacing);
+}
+
+.image-style-align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.image-style-align-right {
+  float: right;
+  margin-left: var(--ck-image-style-spacing);
+}
+
+.image-style-block-align-right {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.image-style-block-align-left {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+p + .image-style-align-left,
+p + .image-style-align-right,
+p + .image-style-side {
+  margin-top: 0;
+}
+
+.image-inline.image-style-align-left,
+.image-inline.image-style-align-right {
+  margin-top: var(--ck-inline-image-style-spacing);
+  margin-bottom: var(--ck-inline-image-style-spacing);
+}
+
+.image-inline.image-style-align-left {
+  margin-right: var(--ck-inline-image-style-spacing);
+}
+
+.image-inline.image-style-align-right {
+  margin-left: var(--ck-inline-image-style-spacing);
+}
+
+@media only screen and (max-width: 1000px) {
+  #save-and-cancel {
+    bottom: 0;
+    margin: auto;
+    background-color: #fff;
+    display: flex;
+    justify-content: center;
+    position: sticky;
+  }
+
+  .save-button,
+  .cancel-button {
+    margin: 1rem .5rem;
+  }
+}
+
+#editor-toolbar div.ck.ck-toolbar__items {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+
